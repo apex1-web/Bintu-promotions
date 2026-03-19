@@ -12,526 +12,335 @@
         :root {
             --bg-dark: #050505;
             --card-bg: #101010;
-            --accent-glow: rgba(0, 210, 255, 0.15); /* Light Blue Glow */
-            --accent-color: #00d2ff; /* Light Blue Color for accents */
+            --accent-glow: rgba(0, 210, 255, 0.15);
+            --accent-color: #00d2ff; 
             --text-main: #ffffff;
-            --text-muted: #888888;
+            --text-muted: #888888; /* ලා කළු පාට description එකට */
+            --danger: #ff4d4d;
         }
 
         /* BASE STYLES */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; line-height: 1.6; }
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            overflow-x: hidden;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* PRELOADER ANIMATION */
-        #preloader {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--bg-dark);
-            z-index: 99999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: opacity 0.5s ease;
-        }
-        .loader-circle {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(0, 210, 255, 0.2);
-            border-top: 3px solid var(--accent-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        .loader-text {
-            margin-top: 15px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            color: var(--accent-color);
-            font-size: 0.9rem;
-            animation: pulse 1.5s infinite;
-        }
-
+        /* PRELOADER */
+        #preloader { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-dark); z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: 0.5s; }
+        .loader-circle { width: 50px; height: 50px; border: 3px solid rgba(0, 210, 255, 0.2); border-top: 3px solid var(--accent-color); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* ANIMATIONS */
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* PAGE REVEAL ANIMATION */
+        @keyframes pageReveal {
+            0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
-
-        .animate-page {
-            animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
-
-        /* NAVIGATION */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 25px;
-            position: sticky;
-            top: 0;
-            background: rgba(5, 5, 5, 0.85);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .logo { font-size: 1.5rem; font-weight: 900; cursor: pointer; letter-spacing: 1px; }
-        .logo span { color: var(--accent-color); }
-
-        /* MENU BTN */
-        .menu-btn { display: flex; flex-direction: column; gap: 5px; cursor: pointer; }
-        .menu-btn span { width: 25px; height: 2px; background-color: var(--accent-color); transition: 0.3s; }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            right: 20px;
-            top: 70px;
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.2); /* changed to white */
-            border-radius: 12px;
-            width: 200px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
-
-        .dropdown-menu a {
-            display: block;
-            padding: 15px 20px;
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 0.9rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            transition: 0.3s;
-        }
-
-        .dropdown-menu a:hover { background: rgba(255, 255, 255, 0.05); color: var(--accent-color); font-weight: 600; }
-
-        /* PAGE VISIBILITY */
-        .page { display: none; text-align: center; padding-bottom: 50px; }
+        .page { display: none; text-align: center; padding-bottom: 50px; animation: pageReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
         .page.active { display: block; }
 
-        /* HERO SECTION */
-        .hero { padding: 60px 20px 30px; }
-        
-        .profile-glow {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 25px;
-            border-radius: 50%;
-            background: var(--card-bg);
-            border: 2px solid var(--accent-color);
-            box-shadow: 0 0 25px var(--accent-glow);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: var(--accent-color);
-        }
+        /* NAVIGATION */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; position: sticky; top: 0; background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .logo { font-size: 1.5rem; font-weight: 900; cursor: pointer; }
+        .logo span { color: var(--accent-color); }
 
+        /* MENU BUTTON & DROPDOWN */
+        .menu-btn { display: flex; flex-direction: column; gap: 5px; cursor: pointer; }
+        .menu-btn span { width: 25px; height: 2px; background-color: var(--accent-color); transition: 0.3s; }
+        .dropdown-menu { display: none; position: absolute; right: 20px; top: 75px; background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; width: 220px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.9); }
+        .dropdown-menu a { display: block; padding: 15px 20px; color: var(--text-main); text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .dropdown-menu a:hover { background: rgba(0, 210, 255, 0.1); color: var(--accent-color); padding-left: 25px; }
+
+        /* HERO & STATS */
+        .hero { padding: 60px 20px 30px; }
+        .profile-glow { width: 120px; height: 120px; margin: 0 auto 25px; border-radius: 50%; background: var(--card-bg); border: 2px solid var(--accent-color); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-color); box-shadow: 0 0 30px var(--accent-glow); }
         .hero h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 10px; }
         .hero h1 span { color: var(--accent-color); }
-        .hero h2 { font-size: 1.2rem; color: var(--accent-color); font-weight: 600; margin-bottom: 20px; letter-spacing: 1px;}
-        .hero-desc { padding: 0 20px; color: var(--text-muted); font-size: 0.9rem; font-weight: 300; margin-bottom: 30px; }
+        .hero h2 { font-size: 1.2rem; color: var(--accent-color); font-weight: 600; margin-bottom: 20px; }
+        .hero-desc { padding: 0 20px; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 30px; }
 
-        .btn-primary {
-            background: var(--accent-color);
-            color: var(--bg-dark);
-            border: none;
-            padding: 12px 35px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.9rem;
-            box-shadow: 0 5px 15px var(--accent-glow);
-            transition: 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 210, 255, 0.4); }
+        .stats-container { display: flex; gap: 15px; margin: 0 20px 30px; }
+        .stat-box { flex: 1; padding: 20px; border-radius: 20px; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); }
+        .stat-box h3 { font-size: 1.8rem; color: var(--accent-color); font-weight: 900; }
+        .stat-box p { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
 
-        /* SECTION STYLES */
-        .section-wrapper { padding: 0 20px; text-align: left; margin-top: 40px;}
-        
-        .section-title { 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            font-size: 1.2rem; 
-            font-weight: 800; 
-            margin-bottom: 25px; 
-            color: var(--text-main);
-            justify-content: center;
-        }
-        .section-title::before {
-            content: '';
-            display: inline-block;
-            width: 4px;
-            height: 20px;
-            background: var(--accent-color);
-            border-radius: 4px;
-        }
-
-        /* CARD DESIGN */
+        /* CHANNEL CARDS (CORRECTED COLORS) */
+        .section-wrapper { padding: 0 20px; text-align: left; margin-top: 40px; }
+        .section-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 25px; color: var(--text-main); text-align: center; }
         .card-list { display: flex; flex-direction: column; gap: 25px; }
+        .service-card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 30px 20px; text-align: center; transition: 0.4s; }
+        .service-card:hover { border-color: var(--accent-color); transform: translateY(-10px); }
+        .card-icon { font-size: 2.5rem; color: var(--text-muted); margin-bottom: 15px; }
+        .service-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; color: #fff; }
         
-        .service-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 20px;
-            padding: 30px 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: 0.3s;
-        }
-        .service-card:hover { border-color: rgba(0, 210, 255, 0.3); transform: translateY(-5px); }
+        /* follow count highlight color */
+        .service-card h3 span { color: var(--accent-color); } 
+        
+        /* description muted color */
+        .service-card p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 25px; line-height: 1.5; } 
 
-        .card-icon {
-            font-size: 2.5rem;
-            color: var(--text-muted);
-            margin-bottom: 15px;
-        }
+        .btn-card { background: var(--accent-color); color: var(--bg-dark); text-decoration: none; padding: 12px 20px; border-radius: 12px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 800; transition: 0.3s; }
+        .btn-card:hover { background: #fff; transform: scale(1.02); }
 
-        .service-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; }
-        .service-card h3 span { color: var(--accent-color); }
-        .service-card p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 25px; line-height: 1.5; }
-
-        .btn-card {
-            background: var(--accent-color);
-            color: var(--bg-dark);
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
-        .btn-card:hover { background: #009acc; color: white;}
-
-        /* FORM STYLES */
-        .form-wrap { background: var(--card-bg); padding: 30px 20px; border-radius: 20px; text-align: left; border: 1px solid rgba(255,255,255,0.05); margin: 0 20px;}
+        /* FORMS & BUTTONS */
+        .form-wrap { background: var(--card-bg); padding: 30px 20px; border-radius: 20px; text-align: left; border: 1px solid rgba(255,255,255,0.05); margin: 0 20px; }
         .input-group { margin-bottom: 20px; }
         .input-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
-        
-        .input-group input, .input-group select, .input-group textarea {
-            width: 100%;
-            background: var(--bg-dark);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 15px;
-            color: white;
-            border-radius: 12px;
-            outline: none;
-            font-size: 0.95rem;
-            transition: 0.3s;
-        }
+        .input-group input, .input-group select, .input-group textarea { width: 100%; background: var(--bg-dark); border: 1px solid rgba(255,255,255,0.1); padding: 15px; color: white; border-radius: 12px; outline: none; }
+        .btn-send-full { background: var(--accent-color); color: var(--bg-dark); border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; }
 
-        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 10px var(--accent-glow);
-        }
+        /* FEEDBACKS */
+        .star-rating { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; font-size: 1.8rem; color: #333; }
+        .star-rating i.active { color: #FFD700; }
+        .comment-item { background: var(--bg-dark); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; text-align: left; }
+        .admin-reply-box { margin-top:10px; padding:10px; background:rgba(0,210,255,0.05); border-left:3px solid var(--accent-color); font-size:0.8rem; }
+        .btn-delete-fb { background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 8px; font-size: 0.7rem; cursor: pointer; float: right; transition: 0.2s; }
 
-        .btn-send-full {
-            background: var(--accent-color);
-            color: var(--bg-dark);
-            border: none;
-            padding: 15px;
-            width: 100%;
-            border-radius: 12px;
-            font-weight: 800;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-            transition: 0.3s;
-        }
-        .btn-send-full:hover { background: #009acc; color: white;}
+        /* POPUP */
+        .notification-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(8px); z-index: 10000; justify-content: center; align-items: center; }
+        .notification-box { background: var(--card-bg); border: 1px solid var(--accent-color); padding: 30px; border-radius: 20px; text-align: center; width: 90%; max-width: 350px; }
 
-        /* FOOTER */
         footer { padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px; text-align: center; }
-        .footer-logo { font-size: 1.2rem; font-weight: 800; margin-bottom: 5px; }
-        .footer-logo span { color: var(--accent-color); }
-        .copyright { color: var(--text-muted); font-size: 0.75rem; }
-
-        /* NOTIFICATION POPUP STYLES */
-        .notification-overlay {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .notification-box {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.2); /* changed to white border */
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); /* adjusted shadow */
-            max-width: 320px;
-            width: 90%;
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        .notification-box i {
-            font-size: 3.5rem;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-        }
-
-        .notification-box h3 {
-            font-size: 1.3rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            color: var(--text-main);
-        }
-
-        .notification-box p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-
-        .btn-close-notify {
-            background: var(--accent-color);
-            color: var(--bg-dark);
-            border: none;
-            padding: 10px 25px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-        }
-
-        .btn-close-notify:hover {
-            background: #009acc;
-            color: white;
-        }
-
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
     </style>
 </head>
 <body onload="hidePreloader()">
 
-    <div id="preloader">
-        <div class="loader-circle"></div>
-        <div class="loader-text">LOADING...</div>
-    </div>
+    <div id="preloader"><div class="loader-circle"></div></div>
 
     <nav>
         <div class="logo" onclick="showPage('home')">Bintu<span>X</span></div>
         <div class="menu-container">
-            <div class="menu-btn" onclick="toggleMenu(event)">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <div class="menu-btn" onclick="toggleMenu(event)"><span></span><span></span><span></span></div>
             <div class="dropdown-menu" id="dropdown">
-                <a href="#" onclick="showPage('order')"><i class="fas fa-shopping-bag" style="margin-right:10px"></i> Order Now</a>
-                <a href="#" onclick="showOffers()"><i class="fas fa-tags" style="margin-right:10px"></i> Special Offers</a>
-                <a href="#" onclick="showPage('home')"><i class="fas fa-home" style="margin-right:10px"></i> Home</a>
+                <a href="#" onclick="showPage('home')"><i class="fas fa-home"></i> Home</a>
+                <a href="#" onclick="showPage('order')"><i class="fas fa-shopping-bag"></i> Order Now</a>
+                <a href="#" onclick="showOffers()"><i class="fas fa-tags"></i> Special Offers</a>
+                <a href="#" onclick="showPage('admin-login')"><i class="fas fa-user-shield"></i> Admin Panel</a>
             </div>
         </div>
     </nav>
 
-    <div id="home" class="page active animate-page">
-        
+    <div id="home" class="page active">
         <section class="hero">
-            <div class="profile-glow">
-                <i class="fas fa-bullhorn"></i> </div>
+            <div class="profile-glow"><i class="fas fa-bullhorn"></i></div>
             <h1>Hi, Welcome to <br>Bintu<span>X</span></h1>
             <h2>Promotion Network</h2>
             <p class="hero-desc">Professional Digital Promotions & Brand Growth in Sri Lanka. The ultimate network for your business.</p>
-            <button class="btn-primary" onclick="showPage('order')">Place Order</button>
+            <button class="btn-send-full" onclick="showPage('order')" style="width: auto; padding: 15px 40px; border-radius: 35px;">Place Order</button>
         </section>
+
+        <div class="stats-container">
+            <div class="stat-box"><h3 id="user-count">0</h3><p>Web Users</p></div>
+            <div class="stat-box"><h3 id="feedback-count">0</h3><p>Feedbacks</p></div>
+        </div>
 
         <section class="section-wrapper">
             <h2 class="section-title">Official Channels</h2>
-            
             <div class="card-list">
                 <div class="service-card">
                     <div class="card-icon"><i class="fab fa-whatsapp"></i></div>
                     <h3>Bike Video <span>150K</span></h3>
                     <p>Join our massive community for the best bike videos and updates. Fast, Free, and Secure.</p>
-                    <a href="https://whatsapp.com/channel/0029VbBOCXz6RGJJAxYvMb3w" target="_blank" class="btn-card">
-                        <i class="fas fa-eye"></i> View Channel
-                    </a>
+                    <a href="https://whatsapp.com/channel/0029VbBOCXz6RGJJAxYvMb3w" target="_blank" class="btn-card">View Channel</a>
                 </div>
-
                 <div class="service-card">
                     <div class="card-icon"><i class="fab fa-whatsapp"></i></div>
                     <h3>Girls Land <span>120K</span></h3>
                     <p>Connect with over 120,000 active members in our exclusive community group.</p>
-                    <a href="https://whatsapp.com/channel/0029VbA2a7j8PgsLRhFMRP3j" target="_blank" class="btn-card">
-                        <i class="fas fa-eye"></i> View Channel
-                    </a>
+                    <a href="https://whatsapp.com/channel/0029VbA2a7j8PgsLRhFMRP3j" target="_blank" class="btn-card">View Channel</a>
                 </div>
-
                 <div class="service-card">
                     <div class="card-icon"><i class="fab fa-whatsapp"></i></div>
                     <h3>Sticker Land <span>65K</span></h3>
                     <p>Get the latest and trending WhatsApp stickers directly to your phone every day.</p>
-                    <a href="https://whatsapp.com/channel/0029VbAj5g9LSmbe1vZ3Am1z" target="_blank" class="btn-card">
-                        <i class="fas fa-eye"></i> View Channel
-                    </a>
+                    <a href="https://whatsapp.com/channel/0029VbAj5g9LSmbe1vZ3Am1z" target="_blank" class="btn-card">View Channel</a>
                 </div>
             </div>
         </section>
+
+        <section class="section-wrapper" style="margin-top: 50px;">
+            <h2 class="section-title">Client Feedbacks</h2>
+            <div class="form-wrap" style="margin: 0;">
+                <div class="star-rating" id="rating-stars">
+                    <i class="fas fa-star" data-rating="1"></i>
+                    <i class="fas fa-star" data-rating="2"></i>
+                    <i class="fas fa-star" data-rating="3"></i>
+                    <i class="fas fa-star" data-rating="4"></i>
+                    <i class="fas fa-star" data-rating="5"></i>
+                </div>
+                <div class="input-group"><input type="text" id="fb_name" placeholder="Your Name"></div>
+                <div class="input-group"><textarea id="fb_message" rows="3" placeholder="Write your feedback..."></textarea></div>
+                <button class="btn-send-full" onclick="submitFeedback()">Submit Feedback</button>
+            </div>
+            <div id="comments-list" style="margin-top: 30px;"></div>
+        </section>
     </div>
 
-    <div id="order" class="page animate-page">
-        <section class="hero" style="padding-top: 40px; padding-bottom: 20px;">
-            <h2 class="section-title">Order Service</h2>
-            <p class="hero-desc" style="margin-bottom: 15px;">Want to promote your business or personal brand? Get started with us today.</p>
-        </section>
-
+    <div id="order" class="page">
+        <section class="hero"><h2 class="section-title">Order Service</h2></section>
         <div class="form-wrap">
-            <div class="input-group">
-                <label>Full Name</label>
-                <input type="text" id="wa_name" placeholder="Ex: Your Name">
-            </div>
-
-            <div class="input-group">
-                <label>WhatsApp Number</label>
-                <input type="text" id="wa_number" placeholder="07XXXXXXXX">
-            </div>
-
-            <div class="input-group">
-                <label>Service Selection</label>
-                <select id="wa_type">
-                    <option value="WhatsApp Promotion">WhatsApp Promotion</option>
-                    <option value="Other Support">Other Support</option>
-                    <option value="Social Media Ads">Social Media Ads</option>
-                    <option value="Education Promotion">Education Promotion</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label>Message Detail</label>
-                <textarea id="wa_message" rows="4" placeholder="Tell us about your requirement..."></textarea>
-            </div>
-
-            <button class="btn-send-full" onclick="sendToWhatsApp()">
-                <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i> Place Order
-            </button>
+            <div class="input-group"><label>Full Name</label><input type="text" id="wa_name" placeholder="Ex: Your Name"></div>
+            <div class="input-group"><label>WhatsApp Number</label><input type="text" id="wa_number" placeholder="07XXXXXXXX"></div>
+            <div class="input-group"><label>Service Selection</label><select id="wa_type"><option>WhatsApp Promotion</option><option>Social Media Ads</option></select></div>
+            <div class="input-group"><label>Message Detail</label><textarea id="wa_message" rows="4"></textarea></div>
+            <button class="btn-send-full" onclick="sendToWhatsApp()"><i class="fab fa-whatsapp"></i> Place Order</button>
         </div>
     </div>
 
-    <footer>
-        <div class="footer-logo">Bintu<span>X</span></div>
-        <p class="copyright">© 2026 BintuX. Official Promotion Network.</p>
-    </footer>
+    <div id="admin-login" class="page">
+        <section class="hero"><h2 class="section-title">Admin Login</h2></section>
+        <div class="form-wrap">
+            <div class="input-group"><input type="text" id="admin_user" placeholder="Username"></div>
+            <div class="input-group"><input type="password" id="admin_pass" placeholder="Password"></div>
+            <button class="btn-send-full" onclick="loginAdmin()">Login to Dashboard</button>
+        </div>
+    </div>
+
+    <div id="admin-dashboard" class="page">
+        <section class="hero"><h2 class="section-title">Admin Dashboard</h2></section>
+        <div class="form-wrap" style="margin-bottom: 20px;">
+            <h3 style="color:var(--accent-color); margin-bottom: 10px;">Update Special Offer</h3>
+            <textarea id="admin_offer_text" rows="3" style="width:100%; background:#000; color:white; border:1px solid #333; padding:10px; border-radius:10px;"></textarea>
+            <button class="btn-send-full" onclick="saveOffer()" style="margin-top:10px;">Save Offer</button>
+        </div>
+        <div class="form-wrap">
+            <h3 style="color:var(--accent-color); margin-bottom: 15px;">Manage Feedbacks (Delete/Reply)</h3>
+            <div id="admin-feedback-list"></div>
+        </div>
+    </div>
+
+    <footer><div class="footer-logo">Bintu<span>X</span></div><p>© 2026 BintuX. Official Promotion Network.</p></footer>
 
     <div class="notification-overlay" id="offersNotification">
         <div class="notification-box">
-            <i class="fas fa-gift"></i>
+            <i class="fas fa-gift" style="font-size: 3rem; color: var(--accent-color);"></i>
             <h3>Special Offers</h3>
-            <p>No currently available offers. Please check back later for exciting promotions!</p>
-            <button class="btn-close-notify" onclick="closeOffers()">Okay</button>
+            <p id="offer-text-display" style="margin: 20px 0; color: #ccc;"></p>
+            <button class="btn-send-full" onclick="closeOffers()">Okay</button>
         </div>
     </div>
 
     <script>
-        // --- PRELOADER LOGIC ---
         function hidePreloader() {
             setTimeout(() => {
-                const preloader = document.getElementById('preloader');
-                preloader.style.opacity = '0';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 500);
-            }, 1000); 
+                const p = document.getElementById('preloader');
+                p.style.opacity = '0';
+                setTimeout(() => p.style.display = 'none', 500);
+            }, 800); 
         }
 
-        // CONFIG: Replace with your main WhatsApp Number
         const ADMIN_NUMBER = "94750679603"; 
 
-        // NAVIGATION LOGIC
         function toggleMenu(e) {
             e.stopPropagation();
             const d = document.getElementById('dropdown');
             d.style.display = d.style.display === 'block' ? 'none' : 'block';
         }
 
-        function showPage(pageId) {
+        function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const p = document.getElementById(pageId);
-            p.classList.add('active');
-            
-            p.style.animation = 'none';
-            p.offsetHeight; 
-            p.style.animation = null;
-
+            document.getElementById(id).classList.add('active');
             document.getElementById('dropdown').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            if(id === 'admin-dashboard') loadAdminFeedbacks();
         }
 
-        // SPECIAL OFFERS POPUP LOGIC
         function showOffers() {
-            document.getElementById('dropdown').style.display = 'none'; // Close the menu
-            document.getElementById('offersNotification').style.display = 'flex'; // Show popup
+            document.getElementById('offer-text-display').innerText = localStorage.getItem('bintux_special_offer') || "No current offers.";
+            document.getElementById('offersNotification').style.display = 'flex';
         }
+        function closeOffers() { document.getElementById('offersNotification').style.display = 'none'; }
 
-        function closeOffers() {
-            document.getElementById('offersNotification').style.display = 'none'; // Hide popup
-        }
-
-        // WHATSAPP SENDING LOGIC
-        function sendToWhatsApp() {
-            const name = document.getElementById('wa_name').value;
-            const num = document.getElementById('wa_number').value;
-            const type = document.getElementById('wa_type').value;
-            const msg = document.getElementById('wa_message').value;
-
-            if(!name || !num || !msg) {
-                alert("Please Fill In All Details.");
-                return;
+        // --- STATS & FEEDBACK LOGIC ---
+        let currentRating = 0;
+        document.querySelectorAll('#rating-stars i').forEach(s => {
+            s.onclick = () => {
+                currentRating = s.dataset.rating;
+                document.querySelectorAll('#rating-stars i').forEach(star => star.classList.toggle('active', star.dataset.rating <= currentRating));
             }
+        });
 
-            const text = `*BintuX - NEW ORDER*%0A%0A*Name:* ${name}%0A*WhatsApp:* ${num}%0A*Service:* ${type}%0A*Details:* ${msg}`;
+        document.addEventListener("DOMContentLoaded", () => {
+            let visits = parseInt(localStorage.getItem('bintux_count') || "0") + 1;
+            localStorage.setItem('bintux_count', visits);
+            document.getElementById('user-count').innerText = visits;
+            loadFeedbacks();
+        });
+
+        function submitFeedback() {
+            const name = document.getElementById('fb_name').value, msg = document.getElementById('fb_message').value;
+            if(!currentRating || !name || !msg) return alert("Please fill all fields!");
+            let feedbacks = JSON.parse(localStorage.getItem('bintux_feedbacks') || "[]");
+            feedbacks.unshift({ name, message: msg, rating: currentRating, reply: "" });
+            localStorage.setItem('bintux_feedbacks', JSON.stringify(feedbacks));
+            location.reload();
+        }
+
+        function loadFeedbacks() {
+            let fbs = JSON.parse(localStorage.getItem('bintux_feedbacks') || "[]");
+            document.getElementById('feedback-count').innerText = fbs.length;
+            const container = document.getElementById('comments-list');
+            container.innerHTML = fbs.map(f => `
+                <div class="comment-item">
+                    <span style="font-weight:700; color:var(--accent-color);">${f.name}</span> 
+                    <span style="color:#FFD700; font-size:0.7rem; margin-left:10px;">${"★".repeat(f.rating)}</span>
+                    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:5px;">${f.message}</p>
+                    ${f.reply ? `<div class="admin-reply-box"><strong>Admin:</strong> ${f.reply}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // --- ADMIN PANEL FUNCTIONS ---
+        function loginAdmin() {
+            const u = document.getElementById('admin_user').value, p = document.getElementById('admin_pass').value;
+            if((u === 'chirandl' || u === 'chirandlanka') && p === '2011') showPage('admin-dashboard');
+            else alert("Invalid Login Credentials!");
+        }
+
+        function saveOffer() {
+            localStorage.setItem('bintux_special_offer', document.getElementById('admin_offer_text').value);
+            alert("Special Offer Saved!");
+        }
+
+        function loadAdminFeedbacks() {
+            let fbs = JSON.parse(localStorage.getItem('bintux_feedbacks') || "[]");
+            const adminList = document.getElementById('admin-feedback-list');
+            adminList.innerHTML = fbs.map((f, i) => `
+                <div class="comment-item" style="border-color:#333;">
+                    <button class="btn-delete-fb" onclick="deleteFeedback(${i})"><i class="fas fa-trash"></i> Delete</button>
+                    <span style="color:var(--accent-color); font-weight:700;">${f.name}</span>
+                    <p style="font-size:0.8rem; margin:5px 0;">${f.message}</p>
+                    <div style="display:flex; gap:5px; margin-top:10px;">
+                        <input type="text" id="rep_${i}" placeholder="Admin Reply..." value="${f.reply}" style="flex:1; background:#000; color:white; border:1px solid #222; padding:8px; border-radius:5px; font-size:0.8rem;">
+                        <button onclick="replyFeedback(${i})" style="padding:8px 15px; background:var(--accent-color); border:none; border-radius:5px; font-weight:800; cursor:pointer;">Reply</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function replyFeedback(i) {
+            let fbs = JSON.parse(localStorage.getItem('bintux_feedbacks') || "[]");
+            fbs[i].reply = document.getElementById(`rep_${i}`).value;
+            localStorage.setItem('bintux_feedbacks', JSON.stringify(fbs));
+            alert("Reply Added!");
+            loadAdminFeedbacks();
+            loadFeedbacks();
+        }
+
+        function deleteFeedback(i) {
+            if(confirm("Delete this feedback permanently?")) {
+                let fbs = JSON.parse(localStorage.getItem('bintux_feedbacks') || "[]");
+                fbs.splice(i, 1);
+                localStorage.setItem('bintux_feedbacks', JSON.stringify(fbs));
+                loadAdminFeedbacks();
+                loadFeedbacks();
+            }
+        }
+
+        function sendToWhatsApp() {
+            const text = `*BintuX ORDER*%0A*Name:* ${document.getElementById('wa_name').value}%0A*Msg:* ${document.getElementById('wa_message').value}`;
             window.open(`https://wa.me/${ADMIN_NUMBER}?text=${text}`, '_blank');
         }
 
-        // Close menu or popup on outside click
         window.onclick = (e) => {
-            const dropdown = document.getElementById('dropdown');
-            const overlay = document.getElementById('offersNotification');
-            
-            if (!e.target.closest('.menu-container') && dropdown.style.display === 'block') {
-                dropdown.style.display = 'none';
-            }
-            if (e.target === overlay) {
-                closeOffers();
-            }
+            if (e.target === document.getElementById('offersNotification')) closeOffers();
         };
     </script>
 </body>
